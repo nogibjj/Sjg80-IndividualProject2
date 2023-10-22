@@ -3,24 +3,6 @@ name = "sqlite"
 version = "0.32.0"
 edition = "2021"
 license = "Apache-2.0/MIT"
-authors = [
-    "Alec Moskvin <alecm@gmx.com>",
-    "Angel Leon <gubatron@gmail.com>",
-    "Cecile Tonglet <cecile.tonglet@cecton.com>",
-    "Daniel Dulaney <ddy@vitronic.com>",
-    "Ivan Stankovic <pokemon@fly.srk.fer.hr>",
-    "Ivan Ukhov <ivan.ukhov@gmail.com>",
-    "Jake Kerr <kodafox@gmail.com>",
-    "James Haywood <jameshaywood@fastmail.com>",
-    "Jayson Reis <santosdosreis@gmail.com>",
-    "Jonatan Lemes <jlemes@lenovo.com>",
-    "Pierre Krieger <pierre.krieger1708@gmail.com>",
-    "Sean Klein <seanmarionklein@gmail.com>",
-    "Sophie Tauchert <999eagle@999eagle.moe>",
-    "Tomoki Aonuma <uasi@uasi.jp>",
-    "Vincenzo Palazzo <vincenzopalazzodev@gmail.com>",
-    "Yorhel <git@yorhel.nl>",
-]
 description = "The package provides an interface to SQLite."
 documentation = "https://docs.rs/sqlite"
 homepage = "https://github.com/stainless-steel/sqlite"
