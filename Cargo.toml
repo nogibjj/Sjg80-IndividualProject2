@@ -19,7 +19,6 @@ linkage = ["sqlite3-sys/linkage"]
 [dependencies]
 libc = "0.2"
 rust-bert = "0.20.0"
-rusqlite = "^0.29"
 
 [dependencies.sqlite3-sys]
 version = "0.15.2"
