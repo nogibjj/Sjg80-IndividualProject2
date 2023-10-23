@@ -1,8 +1,8 @@
-!Interface to [SQLite][1].
+##Interface to [SQLite][1].
 
-## Example
+##Example
 
-Open a connection, create a table, and insert a few rows:
+##Open a connection, create a table, and insert a few rows:
 
 let connection = sqlite::open(":memory:").unwrap();
 
@@ -13,7 +13,7 @@ let query = "
 ";
 connection.execute(query).unwrap();
 
-Select some rows and process them one by one as plain text, which is generally
+##Select some rows and process them one by one as plain text, which is generally
 not efficient:
 
 let connection = sqlite::open(":memory:").unwrap();
@@ -34,8 +34,8 @@ connection
     })
     .unwrap();
 
-Run the same query but using a prepared statement, which is much more efficient
-than the previous technique:
+##Run the same query but using a prepared statement, which is much more efficient
+##than the previous technique:
 
 use sqlite::State;
 let connection = sqlite::open(":memory:").unwrap();
@@ -55,7 +55,7 @@ while let Ok(State::Row) = statement.next() {
     println!("age = {}", statement.read::<i64, _>("age").unwrap());
 }
 
-Run the same query but using a cursor, which is iterable:
+##Run the same query but using a cursor, which is iterable:
 
  let connection = sqlite::open(":memory:").unwrap();
  let query = "
