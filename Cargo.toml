@@ -22,7 +22,7 @@ rust-bert = "0.20.0"
 rusqlite = "^0.29"
 
 [dependencies.sqlite3-sys]
-version = "0.15"
+version = "0.15.2"
 default-features = false
 
 [dev-dependencies]
