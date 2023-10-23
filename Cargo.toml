@@ -1,5 +1,5 @@
 [package]
-name = "sqlite_paquete"
+name = "create_sqlite_db"
 version = "0.1.0"
 edition = "2021"
 
