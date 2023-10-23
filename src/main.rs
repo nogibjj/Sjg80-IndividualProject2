@@ -1,9 +1,9 @@
-use sqlite::Connection;
-use sqlite::State;
+use sqlite::{Connection, OpenFlags, State};
 
 fn main() {
     // Open a connection, create a table, and insert rows:
-    let connection = Connection::open_in_memory().unwrap();
+    let connection = Connection::open_with_flags(":memory:", OpenFlags::READ_WRITE | OpenFlags::CREATE)
+        .unwrap();
 
     let query = "
         CREATE TABLE users (name TEXT, age INTEGER);
