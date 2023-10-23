@@ -75,34 +75,26 @@ impl<'l> Statement<'l> {
     ///
     /// # Examples
     ///
-    /// ```
     /// # let connection = sqlite::open(":memory:").unwrap();
     /// # connection.execute("CREATE TABLE users (id INTEGER, name STRING)");
     /// let query = "SELECT * FROM users WHERE name = ?";
     /// let mut statement = connection.prepare(query)?;
     /// statement.bind((1, "Bob"))?;
     /// # Ok::<(), sqlite::Error>(())
-    /// ```
     ///
-    /// ```
     /// # let connection = sqlite::open(":memory:").unwrap();
     /// # connection.execute("CREATE TABLE users (id INTEGER, name STRING)");
     /// let query = "SELECT * FROM users WHERE name = ?";
     /// let mut statement = connection.prepare(query)?;
     /// statement.bind(&[(1, "Bob")][..])?;
     /// # Ok::<(), sqlite::Error>(())
-    /// ```
     ///
-    /// ```
     /// # let connection = sqlite::open(":memory:").unwrap();
     /// # connection.execute("CREATE TABLE users (id INTEGER, name STRING)");
     /// let query = "SELECT * FROM users WHERE name = :name";
     /// let mut statement = connection.prepare(query)?;
     /// statement.bind((":name", "Bob"))?;
     /// # Ok::<(), sqlite::Error>(())
-    /// ```
-    ///
-    /// ```
     /// # let connection = sqlite::open(":memory:").unwrap();
     /// # connection.execute("CREATE TABLE users (id INTEGER, name STRING)");
     /// let query = "SELECT * FROM users WHERE name = :name";
@@ -122,7 +114,6 @@ impl<'l> Statement<'l> {
     ///     (":name", "Bob".into()),
     /// ][..])?;
     /// # Ok::<(), sqlite::Error>(())
-    /// ```
     #[inline]
     pub fn bind<T: Bindable>(&mut self, value: T) -> Result<()> {
         value.bind(self)?;
@@ -132,8 +123,6 @@ impl<'l> Statement<'l> {
     /// Bind values to parameters via an iterator.
     ///
     /// # Examples
-    ///
-    /// ```
     /// # use sqlite::Value;
     /// # let connection = sqlite::open(":memory:").unwrap();
     /// # connection.execute("CREATE TABLE users (id INTEGER, name STRING)");
@@ -144,7 +133,6 @@ impl<'l> Statement<'l> {
     ///     (":id", 42.into()),
     /// ])?;
     /// # Ok::<(), sqlite::Error>(())
-    /// ```
     pub fn bind_iter<T, U>(&mut self, value: T) -> Result<()>
     where
         T: IntoIterator<Item = U>,
