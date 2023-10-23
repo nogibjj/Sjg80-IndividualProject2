@@ -1,0 +1,16 @@
+#devops
+black==22.3.0
+click==8.1.3 
+pytest==7.1.3
+pytest-cov==4.0.0
+requests==2.26.0
+#rust based linter
+ruff==0.0.284
+#datascience
+pandas==2.0.3
+#cli
+python-fire==0.1.0
+# add necessary databricks req
+python-dotenv
+databricks-sql-connector
+pyodbc
