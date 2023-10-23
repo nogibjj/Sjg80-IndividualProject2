@@ -4,7 +4,6 @@ Interface to [SQLite][1].
 
 Open a connection, create a table, and insert a few rows:
 
-```
 let connection = sqlite::open(":memory:").unwrap();
 
 let query = "
@@ -13,12 +12,10 @@ let query = "
     INSERT INTO users VALUES ('Bob', 69);
 ";
 connection.execute(query).unwrap();
-```
 
 Select some rows and process them one by one as plain text, which is generally
 not efficient:
 
-```
 let connection = sqlite::open(":memory:").unwrap();
 let query = "
      CREATE TABLE users (name TEXT, age INTEGER);
@@ -36,12 +33,10 @@ connection
         true
     })
     .unwrap();
-```
 
 Run the same query but using a prepared statement, which is much more efficient
 than the previous technique:
 
-```
 use sqlite::State;
 let connection = sqlite::open(":memory:").unwrap();
 let query = "
@@ -59,11 +54,9 @@ while let Ok(State::Row) = statement.next() {
     println!("name = {}", statement.read::<String, _>("name").unwrap());
     println!("age = {}", statement.read::<i64, _>("age").unwrap());
 }
-```
 
 Run the same query but using a cursor, which is iterable:
 
-```
  let connection = sqlite::open(":memory:").unwrap();
  let query = "
      CREATE TABLE users (name TEXT, age INTEGER);
@@ -85,4 +78,4 @@ for row in connection
     println!("name = {}", row.read::<&str, _>("name"));
     println!("age = {}", row.read::<i64, _>("age"));
 }
-```
+
