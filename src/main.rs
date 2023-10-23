@@ -1,35 +1,88 @@
-use std::time::{Instant};
-use psutil::memory::virtual_memory;
-use psutil::cpu::CpuPercentCollector;
+Interface to [SQLite][1].
 
-fn extract_words_from_email(email: &str) -> Vec<&str> {
-    let mut words: Vec<&str> = vec![];
+## Example
 
-    if let Some(index) = email.find('@') {
-        let username = &email[..index];
-        words = username.split('.').collect();
-    }
+Open a connection, create a table, and insert a few rows:
 
-    words
+```
+let connection = sqlite::open(":memory:").unwrap();
+
+let query = "
+    CREATE TABLE users (name TEXT, age INTEGER);
+    INSERT INTO users VALUES ('Alice', 42);
+    INSERT INTO users VALUES ('Bob', 69);
+";
+connection.execute(query).unwrap();
+```
+
+Select some rows and process them one by one as plain text, which is generally
+not efficient:
+
+```
+let connection = sqlite::open(":memory:").unwrap();
+let query = "
+     CREATE TABLE users (name TEXT, age INTEGER);
+     INSERT INTO users VALUES ('Alice', 42);
+     INSERT INTO users VALUES ('Bob', 69);
+ ";
+ connection.execute(query).unwrap();
+let query = "SELECT * FROM users WHERE age > 50";
+
+connection
+    .iterate(query, |pairs| {
+        for &(name, value) in pairs.iter() {
+            println!("{} = {}", name, value.unwrap());
+        }
+        true
+    })
+    .unwrap();
+```
+
+Run the same query but using a prepared statement, which is much more efficient
+than the previous technique:
+
+```
+use sqlite::State;
+let connection = sqlite::open(":memory:").unwrap();
+let query = "
+     CREATE TABLE users (name TEXT, age INTEGER);
+     INSERT INTO users VALUES ('Alice', 42);
+     INSERT INTO users VALUES ('Bob', 69);
+ ";
+ connection.execute(query).unwrap();
+
+let query = "SELECT * FROM users WHERE age > ?";
+let mut statement = connection.prepare(query).unwrap();
+statement.bind((1, 50)).unwrap();
+
+while let Ok(State::Row) = statement.next() {
+    println!("name = {}", statement.read::<String, _>("name").unwrap());
+    println!("age = {}", statement.read::<i64, _>("age").unwrap());
 }
+```
 
-fn main() {
-    let email = "example.user@gmail.com"; // Replace with the email address you want to extract from
+Run the same query but using a cursor, which is iterable:
 
-    let start_time = Instant::now();
-    let words = extract_words_from_email(email);
-    let end_time = start_time.elapsed();
+```
+ let connection = sqlite::open(":memory:").unwrap();
+ let query = "
+     CREATE TABLE users (name TEXT, age INTEGER);
+     INSERT INTO users VALUES ('Alice', 42);
+     INSERT INTO users VALUES ('Bob', 69);
+ ";
+ connection.execute(query).unwrap();
 
-    println!("Words before @: {:?}", words);
-    println!("Execution Time: {:?}", end_time);
+let query = "SELECT * FROM users WHERE age > ?";
 
-    // Measure resource usage
-    let memory = virtual_memory().unwrap();
-    let cpu_percent_collector = CpuPercentCollector::new().unwrap();
-
-    // Clone the CpuPercentCollector struct before calling the println!() macro
-    let mut cpu_percent_collector_clone = cpu_percent_collector.clone();
-    println!("CPU Usage: {:.2}% (1-second interval)", cpu_percent_collector_clone.cpu_percent().unwrap());
-
-    println!("Memory Usage: {} bytes", memory.total());
+for row in connection
+    .prepare(query)
+    .unwrap()
+    .into_iter()
+    .bind((1, 50))
+    .unwrap()
+    .map(|row| row.unwrap())
+{
+    println!("name = {}", row.read::<&str, _>("name"));
+    println!("age = {}", row.read::<i64, _>("age"));
 }
+```
