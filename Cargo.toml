@@ -1,29 +1,21 @@
 [package]
-name = "sqlite"
-version = "0.32.0"
+name = "sqlite_paquete"
+version = "0.1.0"
 edition = "2021"
-license = "Apache-2.0/MIT"
-description = "The package provides an interface to SQLite."
-documentation = "https://docs.rs/sqlite"
-homepage = "https://github.com/nogibjj/Sjg80-IndividualProject2"
-repository = "https://github.com/nogibjj/Sjg80-IndividualProject2"
-readme = "README.md"
-categories = ["api-bindings", "database"]
-keywords = ["database"]
 
-[features]
-default = ["linkage"]
-bundled = ["sqlite3-sys/bundled"]
-linkage = ["sqlite3-sys/linkage"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+reqwest = { version = "^0.11", features = ["blocking"] }
+rusqlite = "^0.29"
+csv = "^1.0"
+assert_cmd = "^2.0"
+predicates = "0.9"
 libc = "0.2"
 rust-bert = "0.20.0"
-rusqlite = "^0.29"
 
 [dependencies.sqlite3-sys]
 version = "0.15.2"
 default-features = false
 
-[dev-dependencies]
-temporary = "0.6"
+
